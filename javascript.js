@@ -18,7 +18,6 @@ function openingPage() {
 // Coloring
 
 function coloringPixel(element){
-    
     if (pressedButton == 0) {
         element.classList.add("active");
         element.classList.remove("inactive");
@@ -72,13 +71,8 @@ document.addEventListener("DOMContentLoaded", () => openingPage())
 size.addEventListener("keydown", insertingNewContainerPixels)
 
 container.addEventListener("mousedown", (event) =>{
-    event.preventDefault();
     startColoring = true;
-    if (event == 0) {
-        pressedButton = 2;
-    } else {
-        pressedButton = event.button;
-    }
+    event.preventDefault();
 })
 
 document.addEventListener("mouseup", (event) => {
@@ -86,22 +80,23 @@ document.addEventListener("mouseup", (event) => {
     startColoring = false;
 })
 
-
 document.addEventListener("contextmenu", (event) => {
     event.preventDefault();
 })
 
-
 function addingEventsToNewPixels() {
-    const pixels = Array.from(container.children);
-    pixels.forEach(pixel => {
-        pixel.addEventListener("mousedown", (event) => {
-            coloringPixel(pixel);
-        })
-        pixel.addEventListener("mouseover", (event) => {
-            if (startColoring) {
-                coloringPixel(pixel);  
-            }
-        })
+
+    container.addEventListener("mousedown", (event) => {
+
+        if (event.target.classList.contains("pixel")) {
+            pressedButton = event.button;
+            coloringPixel(event.target);
+        }
+    })
+
+    container.addEventListener("mouseover", (event) => {
+        if (startColoring) {
+            coloringPixel(event.target)
+        }
     })
 }
