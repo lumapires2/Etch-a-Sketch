@@ -36,7 +36,7 @@ h2 {
     justify-content: center;
     width: 50rem;
     height: 50rem;
-    background-color: rgb(218, 255, 169);
+    background-color: rgb(255, 255, 255);
 }
 
 .pixel.active {
@@ -46,11 +46,11 @@ h2 {
 }
 
 .pixel.inactive {
-    background-color: rgba(236, 255, 216, 0.689);
+    background-color: rgb(255, 255, 255);
 }
 
 .pixel {
-    border: 1px rgb(236, 255, 216) solid;
+    border: 1px rgb(232, 232, 232) solid;
     box-sizing: border-box;
     flex-grow: 1;
 }
