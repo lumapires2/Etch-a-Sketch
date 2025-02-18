@@ -20,7 +20,7 @@ function coloringPixel(element, active){
         element.classList.remove("inactive");
     } else {
         element.classList.add("inactive");
-        element.classList.remove("inactive");
+        element.classList.remove("active");
     }
 }
 
@@ -65,13 +65,13 @@ function insertingNewContainerPixels() {
     const pixels = Array.from(container.children);
     pixels.forEach(pixel => {
         pixel.addEventListener("click", () => coloringPixel(pixel, true))
-        pixel.addEventListener("contextmenu", () => coloringPixel(pixel, false))
-    });
+        pixel.addEventListener("contextmenu", (event) => {
+            event.preventDefault();
+            coloringPixel(pixel, false);})}
+    )
  }
 
 // Events
 
 document.addEventListener("DOMContentLoaded", () => openingPage())
-
 size.addEventListener("keydown", insertingNewContainerPixels)
-
