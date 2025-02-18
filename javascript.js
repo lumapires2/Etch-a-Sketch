@@ -6,6 +6,7 @@ const containerHeight = container.offsetHeight;
 const containerWidth = container.offsetWidth;
 
 let startColoring = false
+let pressedButton
 
 // HomePage
 
@@ -16,15 +17,7 @@ function openingPage() {
 
 // Coloring
 
-function coloringPixel(event, element){
-
-    let pressedButton
-
-    if (event == 0) {
-        pressedButton = 2
-    } else {
-        pressedButton = event.button
-    }
+function coloringPixel(element){
     
     if (pressedButton == 0) {
         element.classList.add("active");
@@ -69,7 +62,7 @@ function insertingNewContainerPixels() {
  function resetingGame() {
     let pixels = container.children;
     for (const pixel of pixels){
-        coloringPixel(0, pixel);
+        coloringPixel(pixel);
     }
  }
 
@@ -78,23 +71,36 @@ function insertingNewContainerPixels() {
 document.addEventListener("DOMContentLoaded", () => openingPage())
 size.addEventListener("keydown", insertingNewContainerPixels)
 
-container.addEventListener("mousedown", () =>{
-    startColoring = true
+container.addEventListener("mousedown", (event) =>{
+    event.preventDefault();
+    startColoring = true;
+    if (event == 0) {
+        pressedButton = 2;
+    } else {
+        pressedButton = event.button;
+    }
 })
 
-document.addEventListener("mouseup", () => {
-    startColoring = false
+document.addEventListener("mouseup", (event) => {
+    event.preventDefault();
+    startColoring = false;
 })
+
+
+document.addEventListener("contextmenu", (event) => {
+    event.preventDefault();
+})
+
 
 function addingEventsToNewPixels() {
     const pixels = Array.from(container.children);
     pixels.forEach(pixel => {
         pixel.addEventListener("mousedown", (event) => {
-            coloringPixel(event, pixel);
+            coloringPixel(pixel);
         })
         pixel.addEventListener("mouseover", (event) => {
             if (startColoring) {
-                coloringPixel(event, pixel);  
+                coloringPixel(pixel);  
             }
         })
     })
