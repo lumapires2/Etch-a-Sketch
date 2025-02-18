@@ -5,6 +5,8 @@ const size = document.querySelector("#size");
 const containerHeight = container.offsetHeight;
 const containerWidth = container.offsetWidth;
 
+let startColoring = false
+
 // HomePage
 
 function openingPage() {
@@ -14,13 +16,23 @@ function openingPage() {
 
 // Coloring
 
-function coloringPixel(element, active){
-    if (active) {
+function coloringPixel(event, element){
+
+    let pressedButton
+
+    if (event == 0) {
+        pressedButton = 2
+    } else {
+        pressedButton = event.button
+    }
+    
+    if (pressedButton == 0) {
         element.classList.add("active");
         element.classList.remove("inactive");
-    } else {
+    }
+    else if (pressedButton == 2) {
         element.classList.add("inactive");
-        element.classList.remove("active");
+        element.classList.remove("active");  
     }
 }
 
@@ -57,21 +69,33 @@ function insertingNewContainerPixels() {
  function resetingGame() {
     let pixels = container.children;
     for (const pixel of pixels){
-        coloringPixel(pixel, False);
+        coloringPixel(0, pixel);
     }
- }
-
- function addingEventsToNewPixels() {
-    const pixels = Array.from(container.children);
-    pixels.forEach(pixel => {
-        pixel.addEventListener("click", () => coloringPixel(pixel, true))
-        pixel.addEventListener("contextmenu", (event) => {
-            event.preventDefault();
-            coloringPixel(pixel, false);})}
-    )
  }
 
 // Events
 
 document.addEventListener("DOMContentLoaded", () => openingPage())
 size.addEventListener("keydown", insertingNewContainerPixels)
+
+container.addEventListener("mousedown", () =>{
+    startColoring = true
+})
+
+document.addEventListener("mouseup", () => {
+    startColoring = false
+})
+
+function addingEventsToNewPixels() {
+    const pixels = Array.from(container.children);
+    pixels.forEach(pixel => {
+        pixel.addEventListener("mousedown", (event) => {
+            coloringPixel(event, pixel);
+        })
+        pixel.addEventListener("mouseover", (event) => {
+            if (startColoring) {
+                coloringPixel(event, pixel);  
+            }
+        })
+    })
+}
