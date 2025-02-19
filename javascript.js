@@ -16,6 +16,8 @@ const less = document.querySelector("#less")
 const minPixel =  10
 const maxPixel = 100
 
+const active = document.querySelector(".active")
+
 // HomePage
 
 function openingPage() {
@@ -29,12 +31,22 @@ function openingPage() {
 function coloringPixel(element){
     if (pressedButton == 0) {
         element.classList.add("active");
+        let randomColor = gettingRandomColor()
+        element.style.backgroundColor = randomColor
+        element.style.border = `2px solid ${randomColor}`
         element.classList.remove("inactive");
     }
     else if (pressedButton == 2) {
         element.classList.add("inactive");
         element.classList.remove("active");  
     }
+}
+
+function gettingRandomColor() {
+    let red = Math.floor(Math.random() * 256)
+    let green = Math.floor(Math.random() * 256)
+    let blue = Math.floor(Math.random() * 256)
+    return `rgb(${red}, ${green}, ${blue})`;
 }
 
 // Pixels in container
