@@ -1,4 +1,4 @@
-const inicialWidth = 10;
+const inicialWidth = 50;
 const container = document.querySelector(".container");
 const size = document.querySelector("#size");
 
@@ -8,11 +8,20 @@ const containerWidth = container.offsetWidth;
 let startColoring = false
 let pressedButton
 
+const reset = document.querySelector("h2 div")
+
+const more = document.querySelector("#more")
+const less = document.querySelector("#less")
+
+const minPixel =  10
+const maxPixel = 100
+
 // HomePage
 
 function openingPage() {
-    document.querySelector("#size").value = 10
-    insertingNewContainerPixels()
+    document.querySelector("#size").textContent = inicialWidth;
+    currentWidth = inicialWidth;
+    insertingNewContainerPixels();
 }
 
 // Coloring
@@ -31,7 +40,7 @@ function coloringPixel(element){
 // Pixels in container
 
 function insertingPixels() {
-    const nPixels = parseFloat(document.querySelector("#size").value);
+    const nPixels = parseFloat(document.querySelector("#size").textContent);
     const widthPerPixel = containerWidth/nPixels;
     const heightPerPixel = containerHeight/nPixels;
     const fragment = document.createDocumentFragment();
@@ -50,10 +59,19 @@ function deletingPixels() {
 
 // New Pixel size
 
+function zooming(add) {
+    let currentNPixel = parseInt(size.textContent)
+    if (add && currentNPixel < maxPixel) {
+        size.textContent = currentNPixel + 10
+    } else if (!add && currentNPixel > minPixel){
+        size.textContent = currentNPixel - 10
+    }
+    insertingNewContainerPixels();
+}
+
 function insertingNewContainerPixels() {
     deletingPixels();
     insertingPixels();
-    addingEventsToNewPixels();
 }
 
 // Reset
@@ -61,6 +79,7 @@ function insertingNewContainerPixels() {
  function resetingGame() {
     let pixels = container.children;
     for (const pixel of pixels){
+        pressedButton = 2;
         coloringPixel(pixel);
     }
  }
@@ -68,7 +87,6 @@ function insertingNewContainerPixels() {
 // Events
 
 document.addEventListener("DOMContentLoaded", () => openingPage())
-size.addEventListener("keydown", insertingNewContainerPixels)
 
 container.addEventListener("mousedown", (event) =>{
     startColoring = true;
@@ -84,19 +102,20 @@ document.addEventListener("contextmenu", (event) => {
     event.preventDefault();
 })
 
-function addingEventsToNewPixels() {
+container.addEventListener("mousedown", (event) => {
+    if (event.target.classList.contains("pixel")) {
+        pressedButton = event.button;
+        coloringPixel(event.target);
+    }
+})
 
-    container.addEventListener("mousedown", (event) => {
+container.addEventListener("mouseover", (event) => {
+    if (startColoring) {
+        coloringPixel(event.target)
+    }
+})
 
-        if (event.target.classList.contains("pixel")) {
-            pressedButton = event.button;
-            coloringPixel(event.target);
-        }
-    })
+reset.addEventListener("click", resetingGame)
 
-    container.addEventListener("mouseover", (event) => {
-        if (startColoring) {
-            coloringPixel(event.target)
-        }
-    })
-}
+more.addEventListener("click", () => zooming(true))
+less.addEventListener("click", () => zooming(false))
