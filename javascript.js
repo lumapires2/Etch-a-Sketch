@@ -6,6 +6,8 @@ const containerHeight = container.clientHeight;
 const containerWidth = container.clientWidth;
 
 let startColoring = false
+let rainbow = false
+let defaultColor
 let pressedButton
 
 const reset = document.querySelector("#eraser")
@@ -19,6 +21,10 @@ const maxPixel = 100
 const active = document.querySelector(".active")
 
 let nOpacity = 5
+
+const colorShow = document.querySelector("#colorShow")
+const colorPicker = document.querySelector("#colorPicker")
+const rainbowMode = document.querySelector("#rainbow")
 
 // HomePage
 
@@ -34,11 +40,11 @@ function coloringPixel(element){
 
     if (pressedButton == 0) {
         if (!element.classList.contains('active')) {
+            color = gettingColor()
             element.classList.add("active");
-            let randomColor = gettingRandomColor()
             element.style.opacity = 1/nOpacity
-            element.style.backgroundColor = randomColor
-            element.style.border = `2px solid ${randomColor}`
+            element.style.backgroundColor = color
+            element.style.border = `2px solid ${color}`
             element.classList.remove("inactive");
         } else {
             element.style.opacity = Math.min(parseFloat(element.style.opacity) + 1/nOpacity, 1)
@@ -51,6 +57,15 @@ function coloringPixel(element){
         element.style.opacity = 1
         element.style.backgroundColor = "rgb(255, 255, 255)"
         element.style.border = ""
+    }
+}
+
+function gettingColor() {
+    let color;
+    if (rainbow) {
+        return gettingRandomColor();
+    } else {
+        return defaultColor;
     }
 }
 
@@ -105,7 +120,7 @@ function insertingNewContainerPixels() {
     let pixels = container.children;
     for (const pixel of pixels){
         pressedButton = 2;
-        coloringPixel(pixel);
+        coloringPixel(pixel, false);
     }
  }
 
@@ -140,3 +155,15 @@ container.addEventListener("mouseover", (event) => {
 reset.addEventListener("click", resetingGame)
 more.addEventListener("click", () => zooming(true))
 less.addEventListener("click", () => zooming(false))
+
+colorShow.addEventListener("click", () => {
+    colorPicker.click();
+    rainbow = false;
+})
+
+colorPicker.addEventListener("input", () => {
+    defaultColor = colorPicker.value
+    colorShow.style.backgroundColor = defaultColor;
+})
+
+rainbowMode.addEventListener("click", () => {rainbow = true;})

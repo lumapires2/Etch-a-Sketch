@@ -48,8 +48,8 @@ body > div{
 }
 
 .pixel.active {
-    background-color: rgb(44, 44, 44);
-    border: 1px rgb(44, 44, 44) solid;
+    background-color: rgb(255, 0, 0);
+    border: 1px rgb(255, 0, 0) solid;
     box-sizing: border-box;
 }
 
@@ -63,12 +63,21 @@ body > div{
     flex-grow: 1;
 }
 
-#eraser {
-    width: 2.5rem;
-    padding-left: 0.5rem;
+.drawing{
+    height: 3rem;
+    padding-left: 1rem;
 }
 
-#eraser, .gameSize{
+img, #colorShow {
+    width: 2rem;
+    height: 2rem;
+}
+
+#eraser {
+    font-size: 0.5rem;
+}
+
+.gameSize{
     height: 2.5rem;
 }
 
@@ -78,4 +87,21 @@ body > div{
 
 .container {
     height: 42rem;
+}
+
+.drawing {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+#colorPicker {
+    display: none;
+}
+
+#colorShow {
+    background-color: rgb(255, 0, 0);
+    border-radius: 100%;
 }
