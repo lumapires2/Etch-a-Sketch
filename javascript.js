@@ -8,7 +8,7 @@ const containerWidth = container.clientWidth;
 let startColoring = false
 let pressedButton
 
-const reset = document.querySelector("h2 div")
+const reset = document.querySelector("#eraser")
 
 const more = document.querySelector("#more")
 const less = document.querySelector("#less")
@@ -42,13 +42,15 @@ function coloringPixel(element){
             element.classList.remove("inactive");
         } else {
             element.style.opacity = Math.min(parseFloat(element.style.opacity) + 1/nOpacity, 1)
-        }
-        
+        }   
     }
 
     else if (pressedButton == 2) {
+        element.classList.remove("active"); 
         element.classList.add("inactive");
-        element.classList.remove("active");  
+        element.style.opacity = 1
+        element.style.backgroundColor = "rgb(255, 255, 255)"
+        element.style.border = ""
     }
 }
 
@@ -84,11 +86,12 @@ function deletingPixels() {
 function zooming(add) {
     let currentNPixel = parseInt(size.textContent)
     if (add && currentNPixel < maxPixel) {
-        size.textContent = currentNPixel + 10
+        size.textContent = currentNPixel + 10;
+        insertingNewContainerPixels();
     } else if (!add && currentNPixel > minPixel){
-        size.textContent = currentNPixel - 10
+        size.textContent = currentNPixel - 10;
+        insertingNewContainerPixels();
     }
-    insertingNewContainerPixels();
 }
 
 function insertingNewContainerPixels() {
@@ -135,6 +138,5 @@ container.addEventListener("mouseover", (event) => {
 })
 
 reset.addEventListener("click", resetingGame)
-
 more.addEventListener("click", () => zooming(true))
 less.addEventListener("click", () => zooming(false))
