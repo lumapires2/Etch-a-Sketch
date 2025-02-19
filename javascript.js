@@ -1,9 +1,9 @@
-const inicialWidth = 50;
+const inicialWidth = 10;
 const container = document.querySelector(".container");
 const size = document.querySelector("#size");
 
-const containerHeight = container.offsetHeight;
-const containerWidth = container.offsetWidth;
+const containerHeight = container.clientHeight;
+const containerWidth = container.clientWidth;
 
 let startColoring = false
 let pressedButton
