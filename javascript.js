@@ -18,6 +18,8 @@ const maxPixel = 100
 
 const active = document.querySelector(".active")
 
+let nOpacity = 5
+
 // HomePage
 
 function openingPage() {
@@ -29,13 +31,21 @@ function openingPage() {
 // Coloring
 
 function coloringPixel(element){
+
     if (pressedButton == 0) {
-        element.classList.add("active");
-        let randomColor = gettingRandomColor()
-        element.style.backgroundColor = randomColor
-        element.style.border = `2px solid ${randomColor}`
-        element.classList.remove("inactive");
+        if (!element.classList.contains('active')) {
+            element.classList.add("active");
+            let randomColor = gettingRandomColor()
+            element.style.opacity = 1/nOpacity
+            element.style.backgroundColor = randomColor
+            element.style.border = `2px solid ${randomColor}`
+            element.classList.remove("inactive");
+        } else {
+            element.style.opacity = Math.min(parseFloat(element.style.opacity) + 1/nOpacity, 1)
+        }
+        
     }
+
     else if (pressedButton == 2) {
         element.classList.add("inactive");
         element.classList.remove("active");  
@@ -100,11 +110,6 @@ function insertingNewContainerPixels() {
 
 document.addEventListener("DOMContentLoaded", () => openingPage())
 
-container.addEventListener("mousedown", (event) =>{
-    startColoring = true;
-    event.preventDefault();
-})
-
 document.addEventListener("mouseup", (event) => {
     event.preventDefault();
     startColoring = false;
@@ -116,6 +121,8 @@ document.addEventListener("contextmenu", (event) => {
 
 container.addEventListener("mousedown", (event) => {
     if (event.target.classList.contains("pixel")) {
+        startColoring = true;
+        event.preventDefault();
         pressedButton = event.button;
         coloringPixel(event.target);
     }
