@@ -1,4 +1,4 @@
-const inicialWidth = 10;
+const inicialWidth = 40;
 const container = document.querySelector(".container");
 const size = document.querySelector("#size");
 
